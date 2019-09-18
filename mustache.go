@@ -470,15 +470,16 @@ func (tmpl *Template) parse() error {
 // struct field, method, or map key, and return the result of the lookup.
 func lookup(contextChain []interface{}, name string, allowMissing bool) (reflect.Value, error) {
 	// dot notation
-	if name != "." && strings.Contains(name, ".") {
-		parts := strings.SplitN(name, ".", 2)
-
-		v, err := lookup(contextChain, parts[0], allowMissing)
-		if err != nil {
-			return v, err
-		}
-		return lookup([]interface{}{v}, parts[1], allowMissing)
-	}
+	// AL: Removed dot notation to support `../` parental params in depcharge
+	//if name != "." && strings.Contains(name, ".") {
+	//	parts := strings.SplitN(name, ".", 2)
+	//
+	//	v, err := lookup(contextChain, parts[0], allowMissing)
+	//	if err != nil {
+	//		return v, err
+	//	}
+	//	return lookup([]interface{}{v}, parts[1], allowMissing)
+	//}
 
 	defer func() {
 		if r := recover(); r != nil {
